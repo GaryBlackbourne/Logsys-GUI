@@ -29,6 +29,10 @@ private slots:
 
     void on_pushbtn_PWR_clicked(bool checked);
 
+    void on_pushbtn_CFG_clicked(bool checked);
+
+    void on_pushbtn_COM_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
     libusb_device_handle *logsys_device;

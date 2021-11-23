@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "confwidget.h"
+#include "usartwidget.h"
+#include "bitbangwidget.h"
 
 #include <QCloseEvent>
 
@@ -25,13 +28,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionQuit_triggered()
 {
-    logsys_usb_close(logsys_device);
-    libusb_exit(NULL);
+//    logsys_usb_close(logsys_device);
+//    libusb_exit(NULL);
     qApp->exit(0);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
-    on_actionQuit_triggered();
+//    on_actionQuit_triggered();
     event->accept();
 }
 
@@ -65,5 +68,67 @@ void MainWindow::on_pushbtn_INIT_clicked()
         //qApp->exit(2);
     }else{
         MainWindow::ui->outputConsole->insertPlainText("Logsys device found!\n");
+    }
+}
+
+void MainWindow::on_pushbtn_CFG_clicked(bool checked)
+{
+    int idx = -1;
+    if(checked){
+        idx = MainWindow::ui->tab_container->addTab(new ConfWidget, "Configuration");
+        MainWindow::ui->tab_container->setCurrentIndex(idx);
+        checked = false;
+    }else{
+        for(int i = 0; i < MainWindow::ui->tab_container->count(); i ++){
+            if(ui->tab_container->tabText(i) == "Configuration"){
+                idx = i;
+            }
+        }
+        if(idx > -1){
+            MainWindow::ui->tab_container->removeTab(idx);
+        }
+        checked = true;
+    }
+}
+
+void MainWindow::on_pushbtn_COM_clicked(bool checked)
+{
+    int idx = -1;
+
+    if(checked){
+
+        MainWindow::ui->comm_selector->setDisabled(true);
+
+        QString panel = MainWindow::ui->comm_selector->currentItem()->text();
+        QWidget* itemToLoad;
+
+        if(panel == "USART"){
+            itemToLoad = new UsartWidget;
+        }else if(panel == "Bitbang I/O"){
+            itemToLoad = new BitbangWidget;
+        }else{
+            itemToLoad = new QWidget;
+        }
+
+        idx = MainWindow::ui->tab_container->addTab(itemToLoad, panel);
+        MainWindow::ui->tab_container->setCurrentIndex(idx);
+        checked = false;
+
+    }else{
+
+        for(int i = 0; i < MainWindow::ui->tab_container->count(); i ++){
+            if(ui->tab_container->tabText(i) == "USART"){
+                idx = i;
+            }
+            if(ui->tab_container->tabText(i) == "Bitbang I/O"){
+                idx = i;
+            }
+        }
+
+        if(idx > -1){
+            MainWindow::ui->tab_container->removeTab(idx);
+        }
+        checked = true;
+        MainWindow::ui->comm_selector->setDisabled(false);
     }
 }

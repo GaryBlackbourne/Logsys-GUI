@@ -20,10 +20,15 @@ INCLUDEPATH += /usr/lib/gcc/x86_64-linux-gnu/9/include
 LIBS += -lusb-1.0 -llogsys-drv
 
 SOURCES += \
+    bitbangwidget.cpp \
+    confwidget.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    usartwidget.cpp
 
 HEADERS += \
+    bitbangwidget.h \
+    confwidget.h \
     logsys/common.h \
     logsys/control.h \
     logsys/jconf.h \
@@ -31,10 +36,14 @@ HEADERS += \
     logsys/status.h \
     logsys/usb.h \
     logsys/usb.private.h \
-    mainwindow.h
+    mainwindow.h \
+    usartwidget.h
 
 FORMS += \
-    mainwindow.ui
+    bitbangwidget.ui \
+    confwidget.ui \
+    mainwindow.ui \
+    usartwidget.ui
 
 TRANSLATIONS += \
     Logsys-GUI_en_150.ts
