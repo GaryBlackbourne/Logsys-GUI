@@ -33,6 +33,10 @@ private slots:
 
     void on_pushbtn_COM_clicked(bool checked);
 
+    void on_comm_selector_itemSelectionChanged();
+
+    void on_pushbtn_RST_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
     libusb_device_handle *logsys_device;

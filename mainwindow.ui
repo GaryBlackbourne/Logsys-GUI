@@ -77,6 +77,9 @@
     </item>
    </widget>
    <widget class="QPushButton" name="pushbtn_COM">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -116,6 +119,22 @@
       <width>651</width>
       <height>401</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushbtn_RST">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>320</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>RESET</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

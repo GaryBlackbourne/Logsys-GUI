@@ -107,7 +107,7 @@ void MainWindow::on_pushbtn_COM_clicked(bool checked)
         }else if(panel == "Bitbang I/O"){
             itemToLoad = new BitbangWidget;
         }else{
-            itemToLoad = new QWidget;
+            qApp->exit(1);
         }
 
         idx = MainWindow::ui->tab_container->addTab(itemToLoad, panel);
@@ -131,4 +131,32 @@ void MainWindow::on_pushbtn_COM_clicked(bool checked)
         checked = true;
         MainWindow::ui->comm_selector->setDisabled(false);
     }
+}
+
+void MainWindow::on_comm_selector_itemSelectionChanged()
+{
+    MainWindow::ui->pushbtn_COM->setDisabled(false);
+}
+
+void MainWindow::on_pushbtn_RST_clicked(bool checked)
+{
+    bool success;
+    if(checked){
+        checked = false;
+        logsys_set_reset(logsys_device, true, &success);
+        if(success){
+            MainWindow::ui->outputConsole->insertPlainText("RST signal ON!\n");
+        }else{
+            MainWindow::ui->outputConsole->insertPlainText("Could not drive RST! (already in use?)\n");
+        }
+    }else{
+        checked = true;
+        logsys_set_reset(logsys_device, false, &success);
+        if(success){
+            MainWindow::ui->outputConsole->insertPlainText("RST signal OFF!\n");
+        }else{
+            MainWindow::ui->outputConsole->insertPlainText("Could not drive RST! (already in use?)\n");
+        }
+    }
+
 }
