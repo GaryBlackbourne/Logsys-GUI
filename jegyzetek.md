@@ -53,6 +53,17 @@ A linkeléshez a Qt `.pro` filejában a következő sort kell beírni a `libusb`
 LIBS += -lusb-1.0 -llogsys-drv
 ```
 
-Ezek után a forrásfileokban már használhatjuk mind a libusb, mind a logsys függvényeit, és struktúráit. 
+Ezek után a forrásfileokban már használhatjuk mind a libusb, mind a logsys függvényeit, és struktúráit.
 
 todo: x gomb lekezelése: https://stackoverflow.com/questions/17480984/qt-how-do-i-handle-the-event-of-the-user-pressing-the-x-close-button
+
+## nov.23
+
+A Qt classokon és widgeteken alapszik, a driver kezdeményező és bezáró függvényeit ezeknek a konstruktorába és destruktorába célszerű berakni.
+
+Implementáltam a reset jelet vezérlő logikát, és egy gombhoz kötöttem a fő panelen. az eszköz RST lába nem vált feszültséget ennek a hatására, lehet hogy itt valami más van a háttérben.
+
+Az INIT gomb egyenlőre kötelezően szükséges minden egyébhez, érdemes lenne valahogy egy hotpuggal implementálni ezt a működést, hogy ne kelljen nyomkodni, illetve ne lehessen elfelejteni. Kis segítség: https://stackoverflow.com/questions/8604081/can-linux-signal-my-qt-program-when-a-particular-usb-device-is-connected
+
+A fő működés különböző `QWidget`-ek betöltésével lesz megvalósítva. Külön widget tartozik a konfigurációhoz, illetve a Bitbang, vagy USART kommunikációhoz.
+Ha az inicializáció igényli, akkor lehet célszerű átszerkeszteni hogy három különböző widget tartozzon ugyanahhoz az eszközhöz. Vagy alkalmasint egy paraméterezhető konstruktorral lehet majd inicializálni a megfelelő felületet.
