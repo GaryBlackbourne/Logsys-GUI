@@ -16,8 +16,9 @@ extern "C" {
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
-{
+{    
     ui->setupUi(this);
+    ui->outputConsole->setReadOnly(true);
 }
 
 MainWindow::~MainWindow()
@@ -75,7 +76,7 @@ void MainWindow::on_pushbtn_CFG_clicked(bool checked)
 {
     int idx = -1;
     if(checked){
-        idx = MainWindow::ui->tab_container->addTab(new ConfWidget, "Configuration");
+        idx = MainWindow::ui->tab_container->addTab(new ConfWidget(nullptr, MainWindow::logsys_device), "Configuration");
         MainWindow::ui->tab_container->setCurrentIndex(idx);
         checked = false;
     }else{
@@ -159,4 +160,8 @@ void MainWindow::on_pushbtn_RST_clicked(bool checked)
         }
     }
 
+}
+
+libusb_device_handle* MainWindow::getLogsysDevice() const{
+    return logsys_device;
 }
