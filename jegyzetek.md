@@ -91,4 +91,6 @@ Ugyanis a Xilinx rossz néven keresi a libQtNetwork.so binárist.
 
 Bekerült a konfigurációt kezelő widget az alklamazásba, majdnem egy az egyben az eredeti logsys-GUI-t másolja. A konfigurációhoz használt fileokat a GUI felismeri, `.bit` file esetén `impact` segítségével készít egy svf filet, amit programozásra használ. A programozáshoz használt függvények a `libxsvf` libraryból vannak, így a widget konstruktorához és destruktorához kapcsolt `begin` és `end` függvények nem teszik lehetővé a működést, ezt át kellett tenni a querry függvények mellé.
 
+A driver helyes működéséhez az environment variable-k között szerepelnie kell a fent említett `XILINX` változónak. Ennek a hiányában a driver sajnos nem találja meg az impactot, és a `.bit` file alapú konfiguráció lehetetlenné válik. Ezt a QtCreator esetében a project fülön (nem a .pro file!!) a run panelen lehet beállítani, éles tesztelésre szükség van!
+
 Todo: meg kell valósítani hogy a programozás valóban a kiválasztott hardverrel történjen, ez egyenlőre nincs így, a selectornak semmi hatása sincs.
