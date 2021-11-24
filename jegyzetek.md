@@ -67,3 +67,26 @@ Az INIT gomb egyenlőre kötelezően szükséges minden egyébhez, érdemes lenn
 
 A fő működés különböző `QWidget`-ek betöltésével lesz megvalósítva. Külön widget tartozik a konfigurációhoz, illetve a Bitbang, vagy USART kommunikációhoz.
 Ha az inicializáció igényli, akkor lehet célszerű átszerkeszteni hogy három különböző widget tartozzon ugyanahhoz az eszközhöz. Vagy alkalmasint egy paraméterezhető konstruktorral lehet majd inicializálni a megfelelő felületet.
+
+## nov.24
+
+A Xilinx ISE linux alá történő telepítése szükséges az `impact` futtatásához. Ezt a binárist használja a logsys driver, hogy `bit` fileból `svf` file-t csináljon. Az ISE telepítéséhez Csókás Bence útmutatóját követtem, sajnos a `Qt4` már nem támogatott a 20.04-es Ubuntu alapú rendszereken, így a végleges beüzemelés sajnos további trükközést igényelhet. Az ise indítása terminálból lehetséges, a `/opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/ise` bináris indításával. A hibát a license manager dobta fel.
+
+ Az impact viszont elérhető, így ezt használhatjuk. Az útmutató az alapértelmezett telepítési útvonalat javasolja, és a driver ez alapján keresi meg az `impact`-ot, ehhez egy környezeti változóra van szüksége:
+
+```
+XILINX=/opt/Xilinx/14.7/ISE_DS/ISE
+```
+
+A fenti változóban a XILINX verziója eltérhet a különböző telepítések között, erre érdemes figyelni.
+
+A Xilinx nem ismeri a megfelelő package elnevezéseket, így a licensz ativálásához szükséges `xlcm` bináris futtatásához a következő tweakre van szükségünk:
+
+```
+cd /usr/lib/x86_64-linux-gnu
+sudo ln -s libQtNetwork.so.4 libQt_Network.so
+
+```
+Ugyanis a Xilinx rossz néven keresi a libQtNetwork.so binárist.
+
+A mai napon bekerült a konfigurációt kezelő widget az alklamazásba, majdnem egy az egyben az eredeti logsys-GUI-t másolja.

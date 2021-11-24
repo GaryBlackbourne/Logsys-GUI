@@ -55,6 +55,8 @@ void MainWindow::on_pushbtn_PWR_clicked(bool checked)
 
 void MainWindow::on_pushbtn_INIT_clicked()
 {
+//    QString msg(qgetenv("XILINX"));
+//    MainWindow::ui->outputConsole->insertPlainText(msg + "\n");
     // initialize libusb:
     if (libusb_init(NULL) != 0) {
         MainWindow::ui->outputConsole->insertPlainText("USB initialization failed!\n");

@@ -20,6 +20,29 @@ ConfWidget::ConfWidget(QWidget *parent, libusb_device_handle* logsys_device_para
 
     this->logsys_device = logsys_device_param;
 
+//    bool rdy;
+//    int res = logsys_jtag_begin(logsys_device, MODE_ECHO, &rdy);
+//    if(res < 0){
+//        QString error(libusb_error_name(res));
+//        ui->conf_log->insertPlainText("JTAG begin is failed!\n" + error);
+//    }else{
+//        ui->conf_log->insertPlainText("JTAG begin!\n");
+//    }
+}
+
+ConfWidget::~ConfWidget()
+{
+//    int res = logsys_jtag_end(logsys_device);
+//    if(res < 0)
+//    {
+//        ui->conf_log->insertPlainText("Failed to end JTAG communication\n"); // todo: error handling
+//    }
+    delete ui;
+}
+
+void ConfWidget::on_pushbtnQuerry_clicked()
+{
+    // begin
     bool rdy;
     int res = logsys_jtag_begin(logsys_device, MODE_ECHO, &rdy);
     if(res < 0){
@@ -28,28 +51,26 @@ ConfWidget::ConfWidget(QWidget *parent, libusb_device_handle* logsys_device_para
     }else{
         ui->conf_log->insertPlainText("JTAG begin!\n");
     }
-}
 
-ConfWidget::~ConfWidget()
-{
-    int res = logsys_jtag_end(logsys_device);
-    if(res < 0){
-        ui->conf_log->insertPlainText("Failed to end JTAG communication\n"); // todo: error handling
-    }
-    delete ui;
-}
-
-void ConfWidget::on_pushbtnQuerry_clicked()
-{
+    // querry
     uint32_t devs[16];
     int found_devs;
-    int res = logsys_jtag_scan(logsys_device, devs, 16, &found_devs);
+    res = logsys_jtag_scan(logsys_device, devs, 16, &found_devs);
     if (res < 0) {
         QString error(libusb_error_name(res));
         ui->conf_log->insertPlainText("Scan failed!\n" + error);
     }else{
         ui->conf_log->insertPlainText(QString::number(found_devs) + " device(s) found:\n");
     }
+
+    // end
+    res = logsys_jtag_end(logsys_device);
+    if(res < 0)
+    {
+        ui->conf_log->insertPlainText("Failed to end JTAG communication\n"); // todo: error handling
+    }
+
+    // set selector options
     QString device;
     for (int i = 0; i < found_devs; i++) {
         device = QString::number(devs[i], 16);
@@ -80,6 +101,7 @@ void ConfWidget::on_pusbtnCFG_clicked()
             if(prog_file == nullptr){
                 ui->conf_log->insertPlainText("Error: Bit conversion faliure. Do you have Lattice installed?\n");
             }else{
+                ui->conf_log->insertPlainText("SVF conversion happened, starting download\n");
                 logsys_jtag_dl_svf(logsys_device, prog_file);
                 fclose(prog_file);
             }
