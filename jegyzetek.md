@@ -89,4 +89,6 @@ sudo ln -s libQtNetwork.so.4 libQt_Network.so
 ```
 Ugyanis a Xilinx rossz néven keresi a libQtNetwork.so binárist.
 
-A mai napon bekerült a konfigurációt kezelő widget az alklamazásba, majdnem egy az egyben az eredeti logsys-GUI-t másolja.
+Bekerült a konfigurációt kezelő widget az alklamazásba, majdnem egy az egyben az eredeti logsys-GUI-t másolja. A konfigurációhoz használt fileokat a GUI felismeri, `.bit` file esetén `impact` segítségével készít egy svf filet, amit programozásra használ. A programozáshoz használt függvények a `libxsvf` libraryból vannak, így a widget konstruktorához és destruktorához kapcsolt `begin` és `end` függvények nem teszik lehetővé a működést, ezt át kellett tenni a querry függvények mellé.
+
+Todo: meg kell valósítani hogy a programozás valóban a kiválasztott hardverrel történjen, ez egyenlőre nincs így, a selectornak semmi hatása sincs.
