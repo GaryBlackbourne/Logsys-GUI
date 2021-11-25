@@ -99,6 +99,14 @@ Todo: meg kell valósítani hogy a programozás valóban a kiválasztott hardver
 
 TODO ban marad a logsys eszköz kiválasztása a kártya feltöltésnél, mert látszólag nincs lehetőség az eszköz kiválasztására a driverben, hanem hardcodeolva az FPGA a target. Mindazonáltal a JTAG ID-val kapcsolatban ez egy hasznos linknek tűnik: https://www.fpga4fun.com/JTAG3.html
 
-A `libusb` inicializáció és bezárás átkerült a mainwindow konstruktorába, hiszen az usb eszközre a program kezdetétől fogva szükségünk van.
+A `libusb` inicializáció és bezárás átkerült a `mainwindow` konstruktorába, hiszen az usb eszközre a program kezdetétől fogva szükségünk van. A `mainwindow` tartalmaz tagváltozóként egy `backThread` típusu pointert ami saját osztály, publikus leszármazottja a `QThread` osztálynak.
 
-GUI-ban szükséges kilépési, és egyéb hibaüzenetek kiírása:
+Ez a `QThread` osztály alkalmas a Qt környezetben a threadkezelésre. Felüldefíniálható rajta egy `run()` függvény, amiben a thread valódi funkcióit valósíthatjuk meg. A thread a `start()` függvény hívásával indítható.
+
+A `backThread` feladata az usb hotplug funkció megvalósítása (libusb függvény periodikus hívásával), illetve a megfelelő mérések ekérdezése (majdani implementáció alkalmával). A thread egy végtelen ciklusban végzi a feladatát, a thread megállítására a végtelen ciklust hajtó bool tagváltozó módosításával van lehetőség. A `backThread` konstruktora és destruktora felelős a logsys programozó felismeréséért, és felcsatolásáért, (`logsys_usb_open()`, `logsys_usb_close()`) valamint a hotplughoz szükséges callback függvény regisztrációjáért, és deregisztrációjáért.
+
+GUI-ban szükséges kilépési, és egyéb hibaüzenetek kiírása a `QDebug` osztály segítségével lehetséges. Ennek a folyamatnak a legegyszerűbb megoldása, hogy egy általános debug objektumhoz interfészt biztosító függvényt hívunk, és mivel ezen az osztályon defíniálva van stream operátor, így a használata is felettébb egyszerű:
+``` C++
+qDebug() << "Hibaüzenet!";
+
+```
