@@ -94,3 +94,11 @@ Bekerült a konfigurációt kezelő widget az alklamazásba, majdnem egy az egyb
 A driver helyes működéséhez az environment variable-k között szerepelnie kell a fent említett `XILINX` változónak. Ennek a hiányában a driver sajnos nem találja meg az impactot, és a `.bit` file alapú konfiguráció lehetetlenné válik. Ezt a QtCreator esetében a project fülön (nem a .pro file!!) a run panelen lehet beállítani, éles tesztelésre szükség van!
 
 Todo: meg kell valósítani hogy a programozás valóban a kiválasztott hardverrel történjen, ez egyenlőre nincs így, a selectornak semmi hatása sincs.
+
+## nov.25
+
+TODO ban marad a logsys eszköz kiválasztása a kártya feltöltésnél, mert látszólag nincs lehetőség az eszköz kiválasztására a driverben, hanem hardcodeolva az FPGA a target. Mindazonáltal a JTAG ID-val kapcsolatban ez egy hasznos linknek tűnik: https://www.fpga4fun.com/JTAG3.html
+
+A `libusb` inicializáció és bezárás átkerült a mainwindow konstruktorába, hiszen az usb eszközre a program kezdetétől fogva szükségünk van.
+
+GUI-ban szükséges kilépési, és egyéb hibaüzenetek kiírása:

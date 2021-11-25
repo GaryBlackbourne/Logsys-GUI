@@ -4,6 +4,7 @@
 #include "usartwidget.h"
 #include "bitbangwidget.h"
 
+#include <QDebug>
 #include <QCloseEvent>
 
 extern "C" {
@@ -19,23 +20,40 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {    
     ui->setupUi(this);
     ui->outputConsole->setReadOnly(true);
+
+    // initialize libusb:
+    if (libusb_init(NULL) != 0) {
+        MainWindow::ui->outputConsole->insertPlainText("USB initialization failed!\n");
+        qDebug() << "USB initialization failed!\n";
+        qApp->exit(1); // todo: debug üzenetek.
+    }else{
+        MainWindow::ui->outputConsole->insertPlainText("USB system initialized!\n");
+        qDebug() << "USB system initialized!\n";
+    }
 }
 
 MainWindow::~MainWindow()
 {
-    on_actionQuit_triggered();
+    // end libusb
+    qDebug() << "Main window destructing \n";
+    if(logsys_device != nullptr){
+        logsys_usb_close(logsys_device);
+    }
+    libusb_exit(NULL);
     delete ui;
+
 }
 
 void MainWindow::on_actionQuit_triggered()
 {
 //    logsys_usb_close(logsys_device);
-//    libusb_exit(NULL);
+    qDebug() << "Got quit signal\n";
     qApp->exit(0);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
 //    on_actionQuit_triggered();
+    qDebug() << "close event happened";
     event->accept();
 }
 
@@ -57,20 +75,15 @@ void MainWindow::on_pushbtn_INIT_clicked()
 {
 //    QString msg(qgetenv("XILINX"));
 //    MainWindow::ui->outputConsole->insertPlainText(msg + "\n");
-    // initialize libusb:
-    if (libusb_init(NULL) != 0) {
-        MainWindow::ui->outputConsole->insertPlainText("USB initialization failed!\n");
-        //qApp->exit(1);
-    }else{
-        MainWindow::ui->outputConsole->insertPlainText("USB system initialized!\n");
-    }
-
+//    qDebug() << "start";
     logsys_device = logsys_usb_open(NULL, NULL);
     if (logsys_device == NULL) {
         MainWindow::ui->outputConsole->insertPlainText("No Logsys device found!\n");
+        qDebug() << "No Logsys device found!\n";
         //qApp->exit(2);
     }else{
         MainWindow::ui->outputConsole->insertPlainText("Logsys device found!\n");
+        qDebug() << "Logsys device found!\n";
     }
 }
 

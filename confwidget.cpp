@@ -19,24 +19,10 @@ ConfWidget::ConfWidget(QWidget *parent, libusb_device_handle* logsys_device_para
     ui->conf_log->setReadOnly(true);
 
     this->logsys_device = logsys_device_param;
-
-//    bool rdy;
-//    int res = logsys_jtag_begin(logsys_device, MODE_ECHO, &rdy);
-//    if(res < 0){
-//        QString error(libusb_error_name(res));
-//        ui->conf_log->insertPlainText("JTAG begin is failed!\n" + error);
-//    }else{
-//        ui->conf_log->insertPlainText("JTAG begin!\n");
-//    }
 }
 
 ConfWidget::~ConfWidget()
 {
-//    int res = logsys_jtag_end(logsys_device);
-//    if(res < 0)
-//    {
-//        ui->conf_log->insertPlainText("Failed to end JTAG communication\n"); // todo: error handling
-//    }
     delete ui;
 }
 
@@ -74,7 +60,7 @@ void ConfWidget::on_pushbtnQuerry_clicked()
     QString device;
     for (int i = 0; i < found_devs; i++) {
         device = QString::number(devs[i], 16);
-        ui->device_selector->addItem(device);
+        ui->device_selector->addItem(device, devs[i]); // devs[i] a talált azonosító száma
         ui->conf_log->insertPlainText(" " + QString::number(i) + ": " + device + "\n");
     }
 }
