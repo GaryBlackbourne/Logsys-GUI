@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {    
     ui->setupUi(this);
     ui->outputConsole->setReadOnly(true);
+    logsys_device = nullptr;
 
     // initialize libusb:
     if (libusb_init(NULL) != 0) {
@@ -37,8 +38,10 @@ MainWindow::~MainWindow()
     // end libusb
     qDebug() << "Main window destructing \n";
     if(logsys_device != nullptr){
+        qDebug() << "Closing logsys device\n";
         logsys_usb_close(logsys_device);
     }
+    qDebug() << "USB end\n";
     libusb_exit(NULL);
     delete ui;
 
@@ -77,7 +80,7 @@ void MainWindow::on_pushbtn_INIT_clicked()
 //    MainWindow::ui->outputConsole->insertPlainText(msg + "\n");
 //    qDebug() << "start";
     logsys_device = logsys_usb_open(NULL, NULL);
-    if (logsys_device == NULL) {
+    if (logsys_device == nullptr) {
         MainWindow::ui->outputConsole->insertPlainText("No Logsys device found!\n");
         qDebug() << "No Logsys device found!\n";
         //qApp->exit(2);
