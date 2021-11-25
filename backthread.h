@@ -12,6 +12,7 @@ class backThread : public QThread
 public:
     libusb_hotplug_callback_handle cb_handle;
     static libusb_device_handle* logsys_device;
+    bool run_loop;
 
     backThread();
     ~backThread();

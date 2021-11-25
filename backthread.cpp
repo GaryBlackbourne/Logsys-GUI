@@ -1,5 +1,6 @@
 #include "backthread.h"
 
+#include <sys/time.h>
 #include <QDebug>
 
 extern "C"{
@@ -37,6 +38,7 @@ backThread::backThread(){
         qDebug() << "Hotplug listen error\n";
     }
 
+    run_loop = true;
     this->start();
 }
 
@@ -48,10 +50,14 @@ backThread::~backThread(){
 }
 
 void backThread::run(){
-    qDebug() << "backloop cycle start \n";
-    while(true){
-        libusb_handle_events_completed(NULL, NULL);
-        sleep(1);
-        qDebug() << "bl cycle passed! \n";
+    qDebug() << "backloop cycle start\n";
+    struct timeval tv;
+    tv.tv_sec = 1;
+    tv.tv_usec = 0;
+    while(run_loop){
+        libusb_handle_events_timeout_completed(NULL, &tv,  NULL); // timeoutosra cserélve, hogy ki tudjon lépni a thread
+//        sleep(1);
+        qDebug() << "bl cycle passed!\n";
     }
+    qDebug() << "backloop cycle end\n";
 }

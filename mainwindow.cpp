@@ -34,10 +34,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 MainWindow::~MainWindow()
 {
+    backLoop->run_loop = false;
+    backLoop->wait();
     // end libusb
     qDebug() << "Main window destructing \n";
 
-    delete backLoop; // hogyan állítsuk le ?
+    delete backLoop;
 
     //libusb end:
     qDebug() << "USB end\n";
