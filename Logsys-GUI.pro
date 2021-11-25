@@ -20,6 +20,7 @@ INCLUDEPATH += /usr/lib/gcc/x86_64-linux-gnu/9/include
 LIBS += -lusb-1.0 -llogsys-drv
 
 SOURCES += \
+    backthread.cpp \
     bitbangwidget.cpp \
     confwidget.cpp \
     main.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
     usartwidget.cpp
 
 HEADERS += \
+    backthread.h \
     bitbangwidget.h \
     confwidget.h \
     logsys/common.h \

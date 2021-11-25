@@ -3,6 +3,8 @@
 #define _LOGSYSDRV_USB_H
 
 #include "logsys/common.h"
+#include "libusb-1.0/libusb.h"
+#include "stdbool.h"
 
 /** Open the USB device (i.e. a LOGSYS Download Cable)
   * @note pDev may be NULL, in which case we try to find a device

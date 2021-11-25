@@ -1,7 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "backthread.h"
+
 #include <QMainWindow>
+
 extern "C"{
 #include <libusb-1.0/libusb.h>
 }
@@ -37,10 +40,8 @@ private slots:
 
     void on_pushbtn_RST_clicked(bool checked);
 
-    libusb_device_handle* getLogsysDevice() const;
-
 private:
     Ui::MainWindow *ui;
-    libusb_device_handle *logsys_device;
+    backThread *backLoop;
 };
 #endif // MAINWINDOW_H

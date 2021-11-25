@@ -3,6 +3,7 @@
 #include "confwidget.h"
 #include "usartwidget.h"
 #include "bitbangwidget.h"
+#include "backthread.h"
 
 #include <QDebug>
 #include <QCloseEvent>
@@ -20,16 +21,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {    
     ui->setupUi(this);
     ui->outputConsole->setReadOnly(true);
-    logsys_device = nullptr;
 
     // initialize libusb:
     if (libusb_init(NULL) != 0) {
-        MainWindow::ui->outputConsole->insertPlainText("USB initialization failed!\n");
         qDebug() << "USB initialization failed!\n";
         qApp->exit(1); // todo: debug üzenetek.
     }else{
-        MainWindow::ui->outputConsole->insertPlainText("USB system initialized!\n");
         qDebug() << "USB system initialized!\n";
+        backLoop = new backThread;
     }
 }
 
@@ -37,32 +36,30 @@ MainWindow::~MainWindow()
 {
     // end libusb
     qDebug() << "Main window destructing \n";
-    if(logsys_device != nullptr){
-        qDebug() << "Closing logsys device\n";
-        logsys_usb_close(logsys_device);
-    }
+
+    delete backLoop; // hogyan állítsuk le ?
+
+    //libusb end:
     qDebug() << "USB end\n";
     libusb_exit(NULL);
-    delete ui;
 
+    delete ui;
 }
 
 void MainWindow::on_actionQuit_triggered()
 {
-//    logsys_usb_close(logsys_device);
     qDebug() << "Got quit signal\n";
     qApp->exit(0);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
-//    on_actionQuit_triggered();
     qDebug() << "close event happened";
     event->accept();
 }
 
 void MainWindow::on_pushbtn_PWR_clicked(bool checked)
 {
-    logsys_set_vcc(logsys_device, checked);
+    logsys_set_vcc(backLoop->logsys_device, checked);
     if(checked){
         MainWindow::ui->pushbtn_PWR->setText("5V Power ON");
         checked = false;
@@ -74,27 +71,13 @@ void MainWindow::on_pushbtn_PWR_clicked(bool checked)
     }
 }
 
-void MainWindow::on_pushbtn_INIT_clicked()
-{
-//    QString msg(qgetenv("XILINX"));
-//    MainWindow::ui->outputConsole->insertPlainText(msg + "\n");
-//    qDebug() << "start";
-    logsys_device = logsys_usb_open(NULL, NULL);
-    if (logsys_device == nullptr) {
-        MainWindow::ui->outputConsole->insertPlainText("No Logsys device found!\n");
-        qDebug() << "No Logsys device found!\n";
-        //qApp->exit(2);
-    }else{
-        MainWindow::ui->outputConsole->insertPlainText("Logsys device found!\n");
-        qDebug() << "Logsys device found!\n";
-    }
-}
+void MainWindow::on_pushbtn_INIT_clicked(){}
 
 void MainWindow::on_pushbtn_CFG_clicked(bool checked)
 {
     int idx = -1;
     if(checked){
-        idx = MainWindow::ui->tab_container->addTab(new ConfWidget(nullptr, MainWindow::logsys_device), "Configuration");
+        idx = MainWindow::ui->tab_container->addTab(new ConfWidget(nullptr, backLoop->logsys_device), "Configuration");
         MainWindow::ui->tab_container->setCurrentIndex(idx);
         checked = false;
     }else{
@@ -162,7 +145,7 @@ void MainWindow::on_pushbtn_RST_clicked(bool checked)
     bool success;
     if(checked){
         checked = false;
-        logsys_set_reset(logsys_device, true, &success);
+        logsys_set_reset(backLoop->logsys_device, true, &success);
         if(success){
             MainWindow::ui->outputConsole->insertPlainText("RST signal ON!\n");
         }else{
@@ -170,7 +153,7 @@ void MainWindow::on_pushbtn_RST_clicked(bool checked)
         }
     }else{
         checked = true;
-        logsys_set_reset(logsys_device, false, &success);
+        logsys_set_reset(backLoop->logsys_device, false, &success);
         if(success){
             MainWindow::ui->outputConsole->insertPlainText("RST signal OFF!\n");
         }else{
@@ -178,8 +161,4 @@ void MainWindow::on_pushbtn_RST_clicked(bool checked)
         }
     }
 
-}
-
-libusb_device_handle* MainWindow::getLogsysDevice() const{
-    return logsys_device;
 }
