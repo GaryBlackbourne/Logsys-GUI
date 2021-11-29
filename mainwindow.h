@@ -26,8 +26,6 @@ public:
 
 private slots:
 
-    void on_pushbtn_INIT_clicked();
-
     void on_actionQuit_triggered();
 
     void on_pushbtn_PWR_clicked(bool checked);
@@ -39,6 +37,8 @@ private slots:
     void on_comm_selector_itemSelectionChanged();
 
     void on_pushbtn_RST_clicked(bool checked);
+
+    void on_pushbtn_CLK_clicked(bool checked);
 
 private:
     Ui::MainWindow *ui;

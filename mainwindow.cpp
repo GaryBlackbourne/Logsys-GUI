@@ -7,6 +7,7 @@
 
 #include <QDebug>
 #include <QCloseEvent>
+#include <QString>
 
 extern "C" {
     #include <libusb-1.0/libusb.h>
@@ -72,8 +73,6 @@ void MainWindow::on_pushbtn_PWR_clicked(bool checked)
         MainWindow::ui->outputConsole->insertPlainText("Vcc is set to 0V\n");
     }
 }
-
-void MainWindow::on_pushbtn_INIT_clicked(){}
 
 void MainWindow::on_pushbtn_CFG_clicked(bool checked)
 {
@@ -162,5 +161,27 @@ void MainWindow::on_pushbtn_RST_clicked(bool checked)
             MainWindow::ui->outputConsole->insertPlainText("Could not drive RST! (already in use?)\n");
         }
     }
+}
 
+void MainWindow::on_pushbtn_CLK_clicked(bool checked)
+{
+    bool success;
+    if(checked){
+        checked = false;
+        logsys_clk_start(backLoop->logsys_device, 2, &success);
+        if(success){
+            MainWindow::ui->outputConsole->insertPlainText("CLK ON!\n");
+            MainWindow::ui->outputConsole->insertPlainText("Frequency: " + QString::number(2) + " Hz\n");
+        }else{
+            MainWindow::ui->outputConsole->insertPlainText("Could not drive CLK!\n");
+        }
+    }else{
+        checked = true;
+        logsys_clk_stop(backLoop->logsys_device, &success);
+        if(success){
+            MainWindow::ui->outputConsole->insertPlainText("CLK OFF!\n");
+        }else{
+            MainWindow::ui->outputConsole->insertPlainText("CLK already OFF!\n");
+        }
+    }
 }
