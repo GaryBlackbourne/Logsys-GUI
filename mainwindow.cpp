@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->pushbtn_RST->setDisabled(true);
     ui->pushbtn_PULSE->setDisabled(true);
 
+    ui->comm_selector->setDisabled(true);
+
     // initialize libusb:
     if (libusb_init(NULL) != 0) {
         qDebug() << "USB initialization failed!\n";
@@ -81,6 +83,7 @@ void MainWindow::on_pushbtn_PWR_clicked(bool checked)
         ui->pushbtn_CFG->setDisabled(false);
         ui->pushbtn_RST->setDisabled(false);
         ui->pushbtn_PULSE->setDisabled(false);
+        ui->comm_selector->setDisabled(false);
 
     }else{
 
@@ -91,6 +94,7 @@ void MainWindow::on_pushbtn_PWR_clicked(bool checked)
         ui->pushbtn_CFG->setDisabled(true);
         ui->pushbtn_RST->setDisabled(true);
         ui->pushbtn_PULSE->setDisabled(true);
+        ui->comm_selector->setDisabled(true);
 
     }
 }
