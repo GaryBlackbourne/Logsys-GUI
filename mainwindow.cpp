@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     ui->outputConsole->setReadOnly(true);
 
+    ui->freq_input->setValidator(new QIntValidator(1, 1000, this));
+
     // initialize libusb:
     if (libusb_init(NULL) != 0) {
         qDebug() << "USB initialization failed!\n";
@@ -167,11 +169,12 @@ void MainWindow::on_pushbtn_CLK_clicked(bool checked)
 {
     bool success;
     if(checked){
+        int freq = ui->freq_input->text().toInt();
         checked = false;
-        logsys_clk_start(backLoop->logsys_device, 2, &success);
+        logsys_clk_start(backLoop->logsys_device, freq, &success);
         if(success){
             MainWindow::ui->outputConsole->insertPlainText("CLK ON!\n");
-            MainWindow::ui->outputConsole->insertPlainText("Frequency: " + QString::number(2) + " Hz\n");
+            MainWindow::ui->outputConsole->insertPlainText("Frequency: " + QString::number(freq) + " Hz\n");
         }else{
             MainWindow::ui->outputConsole->insertPlainText("Could not drive CLK!\n");
         }
