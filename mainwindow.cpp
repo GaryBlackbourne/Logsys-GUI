@@ -5,6 +5,8 @@
 #include "bitbangwidget.h"
 #include "backthread.h"
 
+#include <unistd.h>
+
 #include <QDebug>
 #include <QCloseEvent>
 #include <QString>
@@ -186,5 +188,21 @@ void MainWindow::on_pushbtn_CLK_clicked(bool checked)
         }else{
             MainWindow::ui->outputConsole->insertPlainText("CLK already OFF!\n");
         }
+    }
+}
+
+void MainWindow::on_pushbtn_PULSE_clicked()
+{
+    bool success;
+    logsys_clk_start(backLoop->logsys_device, 1, &success);
+    if(success){
+        MainWindow::ui->outputConsole->insertPlainText("CLK pulse was given!\n");
+    }else{
+        MainWindow::ui->outputConsole->insertPlainText("Could not drive CLK!\n");
+    }
+    usleep(100);
+    logsys_clk_stop(backLoop->logsys_device, &success);
+    if(!success){
+        MainWindow::ui->outputConsole->insertPlainText("CLK already OFF!\n");
     }
 }

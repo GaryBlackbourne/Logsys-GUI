@@ -40,6 +40,8 @@ private slots:
 
     void on_pushbtn_CLK_clicked(bool checked);
 
+    void on_pushbtn_PULSE_clicked();
+
 private:
     Ui::MainWindow *ui;
     backThread *backLoop;
