@@ -110,3 +110,9 @@ GUI-ban szükséges kilépési, és egyéb hibaüzenetek kiírása a `QDebug` os
 qDebug() << "Hibaüzenet!";
 
 ```
+
+## nov.26
+
+A JTAG programozás alapvetően `svf` file alapján történik, ez állítja be hogy melyik eszköz kerül programozásra.
+Több usb eszköz kezelése lehetséges lenne valahogy?
+Találtam random GUI projektet.
