@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         qDebug() << "USB system initialized!\n";
         backLoop = new backThread;
     }
+
+    //connect(backLoop, SIGNAL(sig_logsys_removed()), this, SLOT(slot_logsys_removed()));
 }
 
 MainWindow::~MainWindow()
@@ -59,6 +61,15 @@ MainWindow::~MainWindow()
 
     delete ui;
 }
+
+/*
+void MainWindow::slot_logsys_removed()
+{
+    ui->pushbtn_CLK->setChecked(false);
+    ui->comm_selector->clearSelection();
+    ui->pushbtn_CFG->setChecked(false);
+    ui->pushbtn_PWR->setChecked(false);
+}*/
 
 void MainWindow::on_actionQuit_triggered()
 {

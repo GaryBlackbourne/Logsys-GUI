@@ -24,6 +24,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+
+//    void slot_logsys_removed();
+
 private slots:
 
     void on_actionQuit_triggered();
