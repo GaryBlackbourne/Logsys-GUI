@@ -18,6 +18,8 @@ ConfWidget::ConfWidget(QWidget *parent, libusb_device_handle* logsys_device_para
     ui->setupUi(this);
     ui->conf_log->setReadOnly(true);
 
+    lastWD = "";
+
     this->logsys_device = logsys_device_param;
 }
 
@@ -70,7 +72,7 @@ void ConfWidget::on_pusbtnCFG_clicked()
 
     QFileInfo *finfo;
     FILE *prog_file;
-    QString filename = QFileDialog::getOpenFileName(this, "Open the file", "~");
+    QString filename = QFileDialog::getOpenFileName(this, "Open the file", lastWD);
 
     if(filename != nullptr){
 
@@ -78,7 +80,7 @@ void ConfWidget::on_pusbtnCFG_clicked()
 
         finfo = new QFileInfo(filename);
         QString extension(finfo->suffix());
-
+        lastWD = finfo->dir().path();
 //        (filename.toUtf8().constData());
 
         if(extension == "bit"){

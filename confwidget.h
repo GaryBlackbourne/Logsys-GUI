@@ -25,6 +25,7 @@ private slots:
     void on_pusbtnCFG_clicked();
 
 private:
+    QString lastWD;
     Ui::ConfWidget *ui;
     libusb_device_handle *logsys_device;
 };
