@@ -72,7 +72,7 @@ void ConfWidget::on_pusbtnCFG_clicked()
 
     QFileInfo *finfo;
     FILE *prog_file;
-    QString filename = QFileDialog::getOpenFileName(this, "Open the file", lastWD);
+    QString filename = QFileDialog::getOpenFileName(this, "Open the file", lastWD, "Programming files (*.svf *.xsvf *.bit)");
 
     if(filename != nullptr){
 
