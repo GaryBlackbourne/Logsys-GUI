@@ -42,6 +42,8 @@ private slots:
 
     void on_pushbtn_PULSE_clicked();
 
+    void on_freq_input_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     backThread *backLoop;

@@ -27,6 +27,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->freq_input->setValidator(new QIntValidator(1, 1000, this));
 
+    ui->pushbtn_CLK->setDisabled(true);
+    ui->pushbtn_CFG->setDisabled(true);
+    ui->pushbtn_RST->setDisabled(true);
+    ui->pushbtn_PULSE->setDisabled(true);
+
     // initialize libusb:
     if (libusb_init(NULL) != 0) {
         qDebug() << "USB initialization failed!\n";
@@ -68,13 +73,25 @@ void MainWindow::on_pushbtn_PWR_clicked(bool checked)
 {
     logsys_set_vcc(backLoop->logsys_device, checked);
     if(checked){
+
         MainWindow::ui->pushbtn_PWR->setText("5V Power ON");
         checked = false;
         MainWindow::ui->outputConsole->insertPlainText("Vcc is set to 5V\n");
+
+        ui->pushbtn_CFG->setDisabled(false);
+        ui->pushbtn_RST->setDisabled(false);
+        ui->pushbtn_PULSE->setDisabled(false);
+
     }else{
+
         MainWindow::ui->pushbtn_PWR->setText("5V Power OFF");
         checked = true;
         MainWindow::ui->outputConsole->insertPlainText("Vcc is set to 0V\n");
+
+        ui->pushbtn_CFG->setDisabled(true);
+        ui->pushbtn_RST->setDisabled(true);
+        ui->pushbtn_PULSE->setDisabled(true);
+
     }
 }
 
@@ -171,7 +188,14 @@ void MainWindow::on_pushbtn_CLK_clicked(bool checked)
 {
     bool success;
     if(checked){
+        ui->pushbtn_PULSE->setDisabled(true);
         int freq = ui->freq_input->text().toInt();
+
+        if(freq < 1){
+            MainWindow::ui->outputConsole->insertPlainText("Invalid CLK value: " + QString::number(freq) + " Hz!\n");
+            return;
+        }
+
         checked = false;
         logsys_clk_start(backLoop->logsys_device, freq, &success);
         if(success){
@@ -188,6 +212,7 @@ void MainWindow::on_pushbtn_CLK_clicked(bool checked)
         }else{
             MainWindow::ui->outputConsole->insertPlainText("CLK already OFF!\n");
         }
+        ui->pushbtn_PULSE->setDisabled(false);
     }
 }
 
@@ -204,5 +229,14 @@ void MainWindow::on_pushbtn_PULSE_clicked()
     logsys_clk_stop(backLoop->logsys_device, &success);
     if(!success){
         MainWindow::ui->outputConsole->insertPlainText("CLK already OFF!\n");
+    }
+}
+
+void MainWindow::on_freq_input_textChanged(const QString &arg1)
+{
+    if(arg1 != ""){
+        ui->pushbtn_CLK->setDisabled(false);
+    }else{
+        ui->pushbtn_CLK->setDisabled(true);
     }
 }
