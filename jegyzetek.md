@@ -116,3 +116,11 @@ qDebug() << "Hibaüzenet!";
 A JTAG programozás alapvetően `svf` file alapján történik, ez állítja be hogy melyik eszköz kerül programozásra.
 Több usb eszköz kezelése lehetséges lenne valahogy?
 Találtam random GUI projektet.
+
+## dec.1
+
+https://blog.knoldus.com/create-a-debian-package-using-dpkg-deb-tool/
+https://linuxconfig.org/easy-way-to-create-a-debian-package-and-local-package-repository
+https://wiki.debian.org/Packaging
+
+A fenti linkekkel csináltam egy `.deb` packaget, amit apt-vel sikeresen telepítettem. A csomag elhelyezi a release módban fordított binárist a `/usr/bin` mappába, valamint egy ikon filet, és egy `.desktop` filet a megfelelő `icons` és `applications` mappákba a `/usr/share`-en belül.
