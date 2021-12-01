@@ -207,8 +207,13 @@ void MainWindow::on_pushbtn_CLK_clicked(bool checked)
         int freq = ui->freq_input->text().toInt();
 
         if(freq < 1){
-            MainWindow::ui->outputConsole->insertPlainText("Invalid CLK value: " + QString::number(freq) + " Hz!\n");
+            MainWindow::ui->outputConsole->insertPlainText("Invalid CLK value: " + QString::number(freq) + " Hz! Minimum 1 Hz\n");
             return;
+        }else if(freq > 8000){
+            MainWindow::ui->outputConsole->insertPlainText("Invalid CLK value: " + QString::number(freq) + " Hz! Maximum 8 kHz\n");
+            MainWindow::ui->outputConsole->insertPlainText("Setting frequency to 8 kHz!\n");
+            MainWindow::ui->freq_input->setText(QString::number(8000));
+            freq = 8000;
         }
 
         checked = false;
@@ -234,13 +239,13 @@ void MainWindow::on_pushbtn_CLK_clicked(bool checked)
 void MainWindow::on_pushbtn_PULSE_clicked()
 {
     bool success;
-    logsys_clk_start(backLoop->logsys_device, 1, &success);
+    logsys_clk_start(backLoop->logsys_device, 10, &success);
     if(success){
         MainWindow::ui->outputConsole->insertPlainText("CLK pulse was given!\n");
     }else{
         MainWindow::ui->outputConsole->insertPlainText("Could not drive CLK!\n");
     }
-    usleep(100);
+    usleep(90000);
     logsys_clk_stop(backLoop->logsys_device, &success);
     if(!success){
         MainWindow::ui->outputConsole->insertPlainText("CLK already OFF!\n");

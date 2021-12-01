@@ -93,18 +93,21 @@ void ConfWidget::on_pusbtnCFG_clicked()
                 logsys_jtag_dl_svf(logsys_device, prog_file);
                 fclose(prog_file);
             }
+            ui->conf_log->insertPlainText("Download complete!\n");
 
         }else if(extension == "svf"){
 
             prog_file = fopen(filename.toUtf8().constData(), "r");
             logsys_jtag_dl_svf(logsys_device, prog_file);
             fclose(prog_file);
+            ui->conf_log->insertPlainText("Download complete!\n");
 
         }else if(extension == "xsvf"){
 
             prog_file = fopen(filename.toUtf8().constData(), "r");
             logsys_jtag_dl_xsvf(logsys_device, prog_file);
             fclose(prog_file);
+            ui->conf_log->insertPlainText("Download complete!\n");
 
         }else{
             ui->conf_log->insertPlainText("Error: Only the following file extensions allowed: .bit .svf .xsvf\n");
