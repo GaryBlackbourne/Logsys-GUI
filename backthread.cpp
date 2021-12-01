@@ -43,7 +43,6 @@ backThread::backThread(){
 }
 
 backThread::~backThread(){
-    qDebug() << "backLoop destructing\n";
     libusb_hotplug_deregister_callback(NULL, cb_handle);
     if(logsys_device != nullptr){
         logsys_usb_close(logsys_device);
@@ -51,13 +50,13 @@ backThread::~backThread(){
 }
 
 void backThread::run(){
-    qDebug() << "backloop cycle start\n";
+//    qDebug() << "backloop cycle start\n";
     struct timeval tv;
     tv.tv_sec = 1;
     tv.tv_usec = 0;
     while(run_loop){
         libusb_handle_events_timeout_completed(NULL, &tv,  NULL); // timeoutosra cserélve, hogy ki tudjon lépni a thread
-        qDebug() << "bl cycle passed!\n";
+//        qDebug() << "bl cycle passed!\n";
     }
-    qDebug() << "backloop cycle end\n";
+//    qDebug() << "backloop cycle end\n";
 }

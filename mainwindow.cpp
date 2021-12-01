@@ -51,7 +51,7 @@ MainWindow::~MainWindow()
     backLoop->run_loop = false;
     backLoop->wait();
     // end libusb
-    qDebug() << "Main window destructing \n";
+//    qDebug() << "Main window destructing \n";
 
     delete backLoop;
 
@@ -73,12 +73,12 @@ void MainWindow::slot_logsys_removed()
 
 void MainWindow::on_actionQuit_triggered()
 {
-    qDebug() << "Got quit signal\n";
+//    qDebug() << "Got quit signal\n";
     qApp->exit(0);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
-    qDebug() << "close event happened";
+//    qDebug() << "close event happened";
     event->accept();
 }
 
