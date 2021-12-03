@@ -87,13 +87,13 @@ void ConfWidget::on_pusbtnCFG_clicked()
 
             prog_file = (FILE*)logsys_conv_bit2svf(filename.toUtf8().constData());
             if(prog_file == nullptr){
-                ui->conf_log->insertPlainText("Error: Bit conversion faliure. Do you have Lattice installed?\n");
+                ui->conf_log->insertPlainText("Error: Bit conversion faliure. Do you have IMPACT installed?\n");
             }else{
                 ui->conf_log->insertPlainText("SVF conversion happened, starting download\n");
                 logsys_jtag_dl_svf(logsys_device, prog_file);
                 fclose(prog_file);
+                ui->conf_log->insertPlainText("Download complete!\n");
             }
-            ui->conf_log->insertPlainText("Download complete!\n");
 
         }else if(extension == "svf"){
 
