@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->pushbtn_CFG->setDisabled(true);
     ui->pushbtn_RST->setDisabled(true);
     ui->pushbtn_PULSE->setDisabled(true);
+//    ui->pushbtn_PWR->setDisabled(true);
 
     ui->comm_selector->setDisabled(true);
 
@@ -84,29 +85,33 @@ void MainWindow::closeEvent(QCloseEvent *event){
 
 void MainWindow::on_pushbtn_PWR_clicked(bool checked)
 {
-    logsys_set_vcc(backLoop->logsys_device, checked);
-    if(checked){
+    if(backLoop->logsys_device != nullptr){
+        logsys_set_vcc(backLoop->logsys_device, checked);
+        if(checked){
 
-        MainWindow::ui->pushbtn_PWR->setText("5V Power ON");
-        checked = false;
-        MainWindow::ui->outputConsole->insertPlainText("Vcc is set to 5V\n");
+            MainWindow::ui->pushbtn_PWR->setText("5V Power ON");
+            checked = false;
+            MainWindow::ui->outputConsole->insertPlainText("Vcc is set to 5V\n");
 
-        ui->pushbtn_CFG->setDisabled(false);
-        ui->pushbtn_RST->setDisabled(false);
-        ui->pushbtn_PULSE->setDisabled(false);
-        ui->comm_selector->setDisabled(false);
+            ui->pushbtn_CFG->setDisabled(false);
+            ui->pushbtn_RST->setDisabled(false);
+            ui->pushbtn_PULSE->setDisabled(false);
+            ui->comm_selector->setDisabled(false);
 
+        }else{
+
+            MainWindow::ui->pushbtn_PWR->setText("5V Power OFF");
+            checked = true;
+            MainWindow::ui->outputConsole->insertPlainText("Vcc is set to 0V\n");
+
+            ui->pushbtn_CFG->setDisabled(true);
+            ui->pushbtn_RST->setDisabled(true);
+            ui->pushbtn_PULSE->setDisabled(true);
+            ui->comm_selector->setDisabled(true);
+
+        }
     }else{
-
-        MainWindow::ui->pushbtn_PWR->setText("5V Power OFF");
-        checked = true;
-        MainWindow::ui->outputConsole->insertPlainText("Vcc is set to 0V\n");
-
-        ui->pushbtn_CFG->setDisabled(true);
-        ui->pushbtn_RST->setDisabled(true);
-        ui->pushbtn_PULSE->setDisabled(true);
-        ui->comm_selector->setDisabled(true);
-
+        MainWindow::ui->outputConsole->insertPlainText("No logsys device found!\n");
     }
 }
 

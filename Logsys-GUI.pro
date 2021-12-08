@@ -23,14 +23,17 @@ SOURCES += \
     backthread.cpp \
     bitbangwidget.cpp \
     confwidget.cpp \
+    i2cwidget.cpp \
     main.cpp \
     mainwindow.cpp \
+    spiwidget.cpp \
     usartwidget.cpp
 
 HEADERS += \
     backthread.h \
     bitbangwidget.h \
     confwidget.h \
+    i2cwidget.h \
     logsys/common.h \
     logsys/control.h \
     logsys/jconf.h \
@@ -39,12 +42,15 @@ HEADERS += \
     logsys/usb.h \
     logsys/usb.private.h \
     mainwindow.h \
+    spiwidget.h \
     usartwidget.h
 
 FORMS += \
     bitbangwidget.ui \
     confwidget.ui \
+    i2cwidget.ui \
     mainwindow.ui \
+    spiwidget.ui \
     usartwidget.ui
 
 TRANSLATIONS += \
