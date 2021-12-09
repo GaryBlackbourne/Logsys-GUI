@@ -21,6 +21,7 @@ int backThread::logsys_hp_callback(libusb_context *ctx, libusb_device *dev, libu
         }
     }else{ //LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT
         qDebug() << "Logsys disconnected\n";
+        logsys_device = nullptr;
     }
     return 0;
 }
