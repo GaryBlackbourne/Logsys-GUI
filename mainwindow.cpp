@@ -172,6 +172,12 @@ void MainWindow::on_pushbtn_COM_clicked(bool checked)
             if(ui->tab_container->tabText(i) == "Bitbang I/O"){
                 idx = i;
             }
+            if(ui->tab_container->tabText(i) == "I2C"){
+                idx = i;
+            }
+            if(ui->tab_container->tabText(i) == "SPI"){
+                idx = i;
+            }
         }
 
         if(idx > -1){
