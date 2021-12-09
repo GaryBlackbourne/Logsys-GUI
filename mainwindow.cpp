@@ -3,6 +3,8 @@
 #include "confwidget.h"
 #include "usartwidget.h"
 #include "bitbangwidget.h"
+#include "spiwidget.h"
+#include "i2cwidget.h"
 #include "backthread.h"
 
 #include <unistd.h>
@@ -149,7 +151,11 @@ void MainWindow::on_pushbtn_COM_clicked(bool checked)
             itemToLoad = new UsartWidget;
         }else if(panel == "Bitbang I/O"){
             itemToLoad = new BitbangWidget;
-        }else{
+        }else if(panel == "I2C"){
+            itemToLoad = new I2CWidget;
+        }else if(panel == "SPI"){
+            itemToLoad = new SPIWidget;
+    }   else{
             qApp->exit(1);
         }
 
