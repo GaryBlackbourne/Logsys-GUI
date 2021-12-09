@@ -1,14 +1,14 @@
 #include "spiwidget.h"
 #include "ui_spiwidget.h"
 
-spiwidget::spiwidget(QWidget *parent) :
+SPIWidget::SPIWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::spiwidget)
+    ui(new Ui::SPIWidget)
 {
     ui->setupUi(this);
 }
 
-spiwidget::~spiwidget()
+SPIWidget::~SPIWidget()
 {
     delete ui;
 }

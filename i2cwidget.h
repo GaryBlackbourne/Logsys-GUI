@@ -4,19 +4,19 @@
 #include <QWidget>
 
 namespace Ui {
-class i2cwidget;
+class I2CWidget;
 }
 
-class i2cwidget : public QWidget
+class I2CWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit i2cwidget(QWidget *parent = nullptr);
-    ~i2cwidget();
+    explicit I2CWidget(QWidget *parent = nullptr);
+    ~I2CWidget();
 
 private:
-    Ui::i2cwidget *ui;
+    Ui::I2CWidget *ui;
 };
 
 #endif // I2CWIDGET_H

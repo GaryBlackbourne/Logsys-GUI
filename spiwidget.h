@@ -4,19 +4,19 @@
 #include <QWidget>
 
 namespace Ui {
-class spiwidget;
+class SPIWidget;
 }
 
-class spiwidget : public QWidget
+class SPIWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit spiwidget(QWidget *parent = nullptr);
-    ~spiwidget();
+    explicit SPIWidget(QWidget *parent = nullptr);
+    ~SPIWidget();
 
 private:
-    Ui::spiwidget *ui;
+    Ui::SPIWidget *ui;
 };
 
 #endif // SPIWIDGET_H

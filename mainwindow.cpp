@@ -3,6 +3,8 @@
 #include "confwidget.h"
 #include "usartwidget.h"
 #include "bitbangwidget.h"
+#include "spiwidget.h"
+#include "i2cwidget.h"
 #include "backthread.h"
 
 #include <unistd.h>
@@ -21,7 +23,7 @@ extern "C" {
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
-{    
+{
     ui->setupUi(this);
     ui->outputConsole->setReadOnly(true);
 
@@ -111,7 +113,7 @@ void MainWindow::on_pushbtn_PWR_clicked(bool checked)
 
         }
     }else{
-        MainWindow::ui->outputConsole->insertPlainText("No logsys device found!\n");
+            MainWindow::ui->outputConsole->insertPlainText("No logsys device found!\n");
     }
 }
 
@@ -150,7 +152,11 @@ void MainWindow::on_pushbtn_COM_clicked(bool checked)
             itemToLoad = new UsartWidget;
         }else if(panel == "Bitbang I/O"){
             itemToLoad = new BitbangWidget;
-        }else{
+        }else if(panel == "I2C"){
+            itemToLoad = new I2CWidget;
+        }else if(panel == "SPI"){
+            itemToLoad = new SPIWidget;
+    }   else{
             qApp->exit(1);
         }
 
@@ -165,6 +171,12 @@ void MainWindow::on_pushbtn_COM_clicked(bool checked)
                 idx = i;
             }
             if(ui->tab_container->tabText(i) == "Bitbang I/O"){
+                idx = i;
+            }
+            if(ui->tab_container->tabText(i) == "I2C"){
+                idx = i;
+            }
+            if(ui->tab_container->tabText(i) == "SPI"){
                 idx = i;
             }
         }

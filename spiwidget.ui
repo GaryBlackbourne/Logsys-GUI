@@ -2,8 +2,8 @@
  <author/>
  <comment/>
  <exportmacro/>
- <class>spiwidget</class>
- <widget name="spiwidget" class="QWidget">
+ <class>SPIWidget</class>
+ <widget name="SPIWidget" class="QWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
