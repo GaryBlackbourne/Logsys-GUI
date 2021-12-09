@@ -2,8 +2,13 @@
  <author/>
  <comment/>
  <exportmacro/>
+<<<<<<< HEAD
  <class>i2cwidget</class>
  <widget name="i2cwidget" class="QWidget">
+=======
+ <class>I2CWidget</class>
+ <widget name="I2CWidget" class="QWidget">
+>>>>>>> fix
   <property name="geometry">
    <rect>
     <x>0</x>
