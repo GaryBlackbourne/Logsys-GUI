@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->pushbtn_CFG->setDisabled(true);
     ui->pushbtn_RST->setDisabled(true);
     ui->pushbtn_PULSE->setDisabled(true);
+    ui->freq_input->setDisabled(true);
 //    ui->pushbtn_PWR->setDisabled(true);
 
     ui->comm_selector->setDisabled(true);
@@ -99,6 +100,7 @@ void MainWindow::on_pushbtn_PWR_clicked(bool checked)
             ui->pushbtn_RST->setDisabled(false);
             ui->pushbtn_PULSE->setDisabled(false);
             ui->comm_selector->setDisabled(false);
+            ui->freq_input->setDisabled(false);
 
         }else{
 
@@ -110,6 +112,7 @@ void MainWindow::on_pushbtn_PWR_clicked(bool checked)
             ui->pushbtn_RST->setDisabled(true);
             ui->pushbtn_PULSE->setDisabled(true);
             ui->comm_selector->setDisabled(true);
+            ui->freq_input->setDisabled(true);
 
         }
     }else{
